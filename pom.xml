@@ -1,20 +1,53 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.smb-tec.xo.query</groupId>
-  <artifactId>xo-neo4j-query</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <modules>
-    
-    <module>xo-neo4j-lucene</module>
-  </modules>
+    <groupId>com.smb-tec.xo.query</groupId>
+    <artifactId>xo-neo4j-query</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-  <dependencies>
-  	<dependency>
-  		<groupId>com.buschmais.xo</groupId>
-  		<artifactId>xo.neo4j</artifactId>
-  		<version>0.4.0-SNAPSHOT</version>
-  	</dependency>
-  </dependencies>
+    <properties>
+        <com.buschmais.xo_version>0.4.0-SNAPSHOT</com.buschmais.xo_version>
+    </properties>
+
+    <modules>
+        <module>xo-neo4j-lucene</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.buschmais.xo</groupId>
+            <artifactId>xo.test</artifactId>
+            <version>${com.buschmais.xo_version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <name>eXtended Objects - Neo4j - Query Support</name>
+    <url>http://www.github.com/BluWings/xo-neo4j-query</url>
+    <inceptionYear>2014</inceptionYear>
+
+    <organization>
+        <name>SMB GmbH</name>
+        <url>http://www.smb-tec.com/en</url>
+    </organization>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/BluWings/xo-neo4j-query/issues</url>
+    </issueManagement>
+
+    <scm>
+        <connection>scm:git:git@github.com:BluWings/xo-neo4j-query.git</connection>
+        <url>git@github.com:BluWings/xo-neo4j-query.git</url>
+        <developerConnection>scm:git:git@github.com:BluWings/xo-neo4j-query.git</developerConnection>
+    </scm>
+
 </project>

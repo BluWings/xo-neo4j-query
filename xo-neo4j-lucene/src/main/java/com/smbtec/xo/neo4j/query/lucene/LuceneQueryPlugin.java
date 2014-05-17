@@ -10,6 +10,11 @@ import com.buschmais.xo.spi.datastore.DatastoreQuery;
 import com.buschmais.xo.spi.datastore.DatastoreSession;
 import com.buschmais.xo.spi.plugin.QueryPlugin;
 
+/**
+ *
+ * @author Lars Martin - lars.martin@smb-tec.com
+ *
+ */
 public class LuceneQueryPlugin implements QueryPlugin<AbstractNeo4jDatastore, Lucene> {
 
     public Class<Lucene> init(final Datastore datastore) {

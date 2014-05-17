@@ -13,6 +13,11 @@ import com.buschmais.xo.api.ResultIterator;
 import com.buschmais.xo.api.XOException;
 import com.buschmais.xo.spi.datastore.DatastoreQuery;
 
+/**
+ *
+ * @author Lars Martin - lars.martin@smb-tec.com
+ *
+ */
 public class LuceneQuery implements DatastoreQuery<Lucene> {
 
     private final GraphDatabaseService graphDb;
@@ -22,15 +27,21 @@ public class LuceneQuery implements DatastoreQuery<Lucene> {
     }
 
     public ResultIterator<Map<String, Object>> execute(final Lucene query, final Map<String, Object> parameters) {
-        final String luceneQuery = query.value();
-        final Class<?> type = query.type();
+        return execute(query.value(), query.type(), parameters);
+    }
+
+    public ResultIterator<Map<String, Object>> execute(final String query, final Map<String, Object> parameters) {
+        return execute(query, null, parameters);
+    }
+
+    private ResultIterator<Map<String, Object>> execute(final String lucene, final Class<?> type, final Map<String, Object> parameters) {
         final IndexHits<Node> hits;
-        if (!graphDb.index().getNodeAutoIndexer().isEnabled()) {
+        if (!graphDb.index().getNodeAutoIndexer().isEnabled() && type != null) {
             final Index<Node> nodeIndex = graphDb.index().forNodes(type.getName());
-            hits = nodeIndex.query(luceneQuery);
+            hits = nodeIndex.query(lucene);
         } else {
             final ReadableIndex<Node> autoNodeIndex = graphDb.index().getNodeAutoIndexer().getAutoIndex();
-            hits = autoNodeIndex.query(luceneQuery);
+            hits = autoNodeIndex.query(lucene);
         }
         return new ResultIterator<Map<String, Object>>() {
 
@@ -54,9 +65,4 @@ public class LuceneQuery implements DatastoreQuery<Lucene> {
         };
 
     }
-
-    public ResultIterator<Map<String, Object>> execute(final String query, final Map<String, Object> parameters) {
-        throw new XOException("");
-    }
-
 }
