@@ -9,13 +9,53 @@
 
     <properties>
         <com.buschmais.xo_version>0.4.0-SNAPSHOT</com.buschmais.xo_version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <modules>
         <module>xo-neo4j-lucene</module>
+        <module>xo-neo4j-gremlin</module>
     </modules>
 
     <dependencies>
+        <dependency>
+            <groupId>com.buschmais.xo</groupId>
+            <artifactId>xo.neo4j</artifactId>
+            <version>${com.buschmais.xo_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-kernel</artifactId>
+            <classifier>tests</classifier>
+            <version>2.0.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.neo4j.app</groupId>
+            <artifactId>neo4j-server</artifactId>
+            <version>2.0.3</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-access</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-rest-graphdb</artifactId>
+            <version>2.0.1</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>com.buschmais.xo</groupId>
             <artifactId>xo.test</artifactId>
@@ -29,6 +69,27 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <name>eXtended Objects - Neo4j - Query Support</name>
     <url>http://www.github.com/BluWings/xo-neo4j-query</url>

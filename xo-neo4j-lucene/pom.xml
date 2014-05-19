@@ -10,47 +10,6 @@
 
     <artifactId>xo-neo4j-lucene</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.buschmais.xo</groupId>
-            <artifactId>xo.neo4j</artifactId>
-            <version>${com.buschmais.xo_version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo4j-kernel</artifactId>
-            <classifier>tests</classifier>
-            <version>2.0.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.neo4j.app</groupId>
-            <artifactId>neo4j-server</artifactId>
-            <version>2.0.3</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>asm</groupId>
-                    <artifactId>asm</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-access</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-classic</artifactId>
-                </exclusion>
-            </exclusions>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo4j-rest-graphdb</artifactId>
-            <version>2.0.1</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
     <name>eXtended Objects - Neo4j - Lucene Query Support</name>
 
 </project>

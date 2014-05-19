@@ -1,6 +1,6 @@
 /*
  * #%L
- * eXtended Objects - Neo4j - Lucene Query Support
+ * eXtended Objects - Neo4j - Gremlin Query Support
  * %%
  * Copyright (C) 2014 SMB GmbH
  * %%
@@ -17,35 +17,28 @@
  * limitations under the License.
  * #L%
  */
-package com.smbtec.xo.neo4j.query.lucene;
+package com.smbtec.xo.neo4j.query.gremlin;
 
-import org.neo4j.graphdb.GraphDatabaseService;
-
+import com.buschmais.xo.neo4j.api.Neo4jDatastoreSession;
 import com.buschmais.xo.neo4j.impl.datastore.AbstractNeo4jDatastore;
-import com.buschmais.xo.neo4j.impl.datastore.AbstractNeo4jDatastoreSession;
-
 import com.buschmais.xo.spi.datastore.Datastore;
 import com.buschmais.xo.spi.datastore.DatastoreQuery;
 import com.buschmais.xo.spi.datastore.DatastoreSession;
 import com.buschmais.xo.spi.plugin.QueryPlugin;
+import com.smbtec.xo.tinkerpop.blueprints.api.annotation.Gremlin;
 
-/**
- *
- * @author Lars Martin - lars.martin@smb-tec.com
- *
- */
-public class LuceneQueryPlugin implements QueryPlugin<AbstractNeo4jDatastore, Lucene> {
+public class GremlinQueryPlugin implements QueryPlugin<AbstractNeo4jDatastore, Gremlin> {
 
-    public Class<Lucene> init(final Datastore datastore) {
+    public Class<Gremlin> init(final Datastore datastore) {
         if (datastore instanceof AbstractNeo4jDatastore) {
-            return Lucene.class;
+            return Gremlin.class;
         } else {
             return null;
         }
     }
 
-    public DatastoreQuery<Lucene> createQuery(final DatastoreSession session) {
-        return new LuceneQuery(((AbstractNeo4jDatastoreSession<GraphDatabaseService>) session).getGraphDatabaseService());
+    public DatastoreQuery<Gremlin> createQuery(final DatastoreSession session) {
+        return new GremlinQuery((Neo4jDatastoreSession) session);
     }
 
 }

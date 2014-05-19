@@ -1,6 +1,6 @@
 /*
  * #%L
- * eXtended Objects - Neo4j - Lucene Query Support
+ * eXtended Objects - Neo4j - Gremlin Query Support
  * %%
  * Copyright (C) 2014 SMB GmbH
  * %%
@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package com.smbtec.xo.neo4j.query.lucene;
+package com.smbtec.xo.neo4j.query.gremlin;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -36,7 +36,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.AutoIndexer;
@@ -53,16 +52,11 @@ import com.buschmais.xo.api.bootstrap.XOUnit;
 import com.buschmais.xo.neo4j.api.Neo4jDatastoreSession;
 import com.buschmais.xo.neo4j.api.Neo4jXOProvider;
 import com.buschmais.xo.test.AbstractXOManagerTest;
+import com.smbtec.xo.neo4j.query.gremlin.composite.A;
+import com.smbtec.xo.tinkerpop.blueprints.api.annotation.Gremlin;
 
-import com.smbtec.xo.neo4j.query.lucene.composite.A;
-
-/**
- *
- * @author Lars Martin - lars.martin@smb-tec.com
- *
- */
 @RunWith(Parameterized.class)
-public class LuceneQueryTest extends AbstractXOManagerTest {
+public class GremlinQueryTest extends AbstractXOManagerTest {
 
     protected enum Neo4jDatabase implements AbstractXOManagerTest.Database {
         MEMORY("memory:///"), REST("http://localhost:7474/db/data");
@@ -76,10 +70,12 @@ public class LuceneQueryTest extends AbstractXOManagerTest {
             }
         }
 
+        @Override
         public URI getUri() {
             return uri;
         }
 
+        @Override
         public Class<?> getProvider() {
             return Neo4jXOProvider.class;
         }
@@ -91,7 +87,7 @@ public class LuceneQueryTest extends AbstractXOManagerTest {
     }
 
     protected static Collection<Object[]> xoUnits(final Class<?>... types) {
-        return xoUnits(Arrays.asList(Neo4jDatabase.MEMORY, Neo4jDatabase.REST), Arrays.asList(types), Collections.<Class<?>> emptyList(), ValidationMode.AUTO,
+        return xoUnits(Arrays.asList(Neo4jDatabase.MEMORY), Arrays.asList(types), Collections.<Class<?>> emptyList(), ValidationMode.AUTO,
                 ConcurrencyMode.SINGLETHREADED, Transaction.TransactionAttribute.NONE);
     }
 
@@ -127,47 +123,79 @@ public class LuceneQueryTest extends AbstractXOManagerTest {
         xoManager.currentTransaction().commit();
     }
 
-    public LuceneQueryTest(final XOUnit xoUnit) {
+    public GremlinQueryTest(final XOUnit xoUnit) {
         super(xoUnit);
     }
 
     @Test
-    public void testLuceneAnnotatedQuery() {
+    public void testGremlinAnnotatedQuery() {
         final XOManager xoManager = getXoManager();
-        final Lucene lucene = new Lucene() {
+        final Gremlin gremlin = new Gremlin() {
 
+            @Override
             public Class<? extends Annotation> annotationType() {
                 return null;
             }
 
+            @Override
             public String value() {
-                return "name:fo*";
+                return "g.V";
             }
 
-            public Class<?> type() {
-                return A.class;
+            @Override
+            public String name() {
+                return "";
             }
+
         };
         xoManager.currentTransaction().begin();
 
-        final LuceneQuery luceneQuery = getLuceneQuery();
-        final ResultIterator<Map<String, Object>> result = luceneQuery.execute(lucene, Collections.<String, Object> emptyMap());
+        final GremlinQuery gremlinQuery = getGremlinQuery();
+        final ResultIterator<Map<String, Object>> result = gremlinQuery.execute(gremlin, Collections.<String, Object> emptyMap());
         assertThat(result.hasNext(), is(true));
+
+        Map<String, Object> data = result.next();
+        Object object = data.get("node");
+
+        assertThat(result.hasNext(), is(false));
 
         xoManager.currentTransaction().commit();
     }
 
     @Test
-    public void testLuceneQuery() {
+    public void testGremlinQuery() {
         final XOManager xoManager = getXoManager();
         xoManager.currentTransaction().begin();
 
-        final LuceneQuery luceneQuery = getLuceneQuery();
-        final ResultIterator<Map<String, Object>> result = luceneQuery.execute("name:fo*", Collections.<String, Object> emptyMap());
+        final GremlinQuery gremlinQuery = getGremlinQuery();
+        final ResultIterator<Map<String, Object>> result = gremlinQuery.execute("g.V", Collections.<String, Object> emptyMap());
         assertThat(result.hasNext(), is(true));
+
+        Map<String, Object> data = result.next();
+        Object object = data.get("node");
+
+        assertThat(result.hasNext(), is(false));
 
         xoManager.currentTransaction().commit();
     }
+
+    @Test
+    public void testGremlinQuery1() {
+        final XOManager xoManager = getXoManager();
+        xoManager.currentTransaction().begin();
+
+        final GremlinQuery gremlinQuery = getGremlinQuery();
+        final ResultIterator<Map<String, Object>> result = gremlinQuery.execute("g.v(0)", Collections.<String, Object> emptyMap());
+        assertThat(result.hasNext(), is(true));
+
+        Map<String, Object> data = result.next();
+        Object object = data.get("node");
+
+        assertThat(result.hasNext(), is(false));
+
+        xoManager.currentTransaction().commit();
+    }
+
 
     @Override
     protected void dropDatabase() {
@@ -178,11 +206,9 @@ public class LuceneQueryTest extends AbstractXOManagerTest {
         manager.currentTransaction().commit();
     }
 
-    private LuceneQuery getLuceneQuery() {
-        // plugin registry not yet implemented, manually create lucene query object
+    private GremlinQuery getGremlinQuery() {
         final Neo4jDatastoreSession datastoreSession = getXoManager().getDatastoreSession(Neo4jDatastoreSession.class);
-        final GraphDatabaseService graphDatabaseService = datastoreSession.getGraphDatabaseService();
-        return new LuceneQuery(graphDatabaseService);
+        return new GremlinQuery(datastoreSession);
     }
 
 }

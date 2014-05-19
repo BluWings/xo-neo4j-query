@@ -1,6 +1,6 @@
 /*
  * #%L
- * eXtended Objects - Neo4j - Lucene Query Support
+ * eXtended Objects - Neo4j - Gremlin Query Support
  * %%
  * Copyright (C) 2014 SMB GmbH
  * %%
@@ -17,27 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package com.smbtec.xo.neo4j.query.lucene;
+package com.smbtec.xo.neo4j.query.gremlin.composite;
 
-import com.buschmais.xo.spi.annotation.QueryDefinition;
+import com.buschmais.xo.neo4j.api.annotation.Label;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+@Label("A")
+public interface A {
 
-/**
- *
- * @author Lars Martin - lars.martin@smb-tec.com
- *
- */
-@QueryDefinition
-@Target({ ElementType.TYPE, ElementType.METHOD })
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Lucene {
+    String getName();
 
-    String value();
-
-    Class<?> type();
+    void setName(String name);
 
 }
+
