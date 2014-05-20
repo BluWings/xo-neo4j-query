@@ -121,54 +121,10 @@ public class GremlinQueryTest extends AbstractXOManagerTest {
     }
 
     @Test
-    public void testGremlinAnnotatedQuery() {
-        final XOManager xoManager = getXoManager();
-        final Gremlin gremlin = new Gremlin() {
-
-            @Override
-            public Class<? extends Annotation> annotationType() {
-                return null;
-            }
-
-            @Override
-            public String value() {
-                return "g.V";
-            }
-
-            @Override
-            public String name() {
-                return "";
-            }
-
-        };
-        xoManager.currentTransaction().begin();
-
-        final GremlinQuery gremlinQuery = getGremlinQuery();
-        final ResultIterator<Map<String, Object>> result = gremlinQuery.execute(gremlin, Collections.<String, Object> emptyMap());
-        assertThat(result.hasNext(), is(true));
-
-        Map<String, Object> data = result.next();
-        Object object = data.get("node");
-
-        assertThat(result.hasNext(), is(false));
-
-        xoManager.currentTransaction().commit();
-    }
-
-    @Test
     public void testGremlinQuery() {
         final XOManager xoManager = getXoManager();
         xoManager.currentTransaction().begin();
-
-        final GremlinQuery gremlinQuery = getGremlinQuery();
-        final ResultIterator<Map<String, Object>> result = gremlinQuery.execute("g.V", Collections.<String, Object> emptyMap());
-        assertThat(result.hasNext(), is(true));
-
-        Map<String, Object> data = result.next();
-        Object object = data.get("node");
-
-        assertThat(result.hasNext(), is(false));
-
+        xoManager.createQuery("g.V").using(Gremlin.class).execute();
         xoManager.currentTransaction().commit();
     }
 
@@ -176,19 +132,9 @@ public class GremlinQueryTest extends AbstractXOManagerTest {
     public void testGremlinQuery1() {
         final XOManager xoManager = getXoManager();
         xoManager.currentTransaction().begin();
-
-        final GremlinQuery gremlinQuery = getGremlinQuery();
-        final ResultIterator<Map<String, Object>> result = gremlinQuery.execute("g.v(0)", Collections.<String, Object> emptyMap());
-        assertThat(result.hasNext(), is(true));
-
-        Map<String, Object> data = result.next();
-        Object object = data.get("node");
-
-        assertThat(result.hasNext(), is(false));
-
+        xoManager.createQuery("g.V").using(Gremlin.class).execute();
         xoManager.currentTransaction().commit();
     }
-
 
     @Override
     protected void dropDatabase() {
@@ -197,11 +143,6 @@ public class GremlinQueryTest extends AbstractXOManagerTest {
         manager.createQuery("MATCH (n)-[r]-() DELETE r").execute();
         manager.createQuery("MATCH (n) DELETE n").execute();
         manager.currentTransaction().commit();
-    }
-
-    private GremlinQuery getGremlinQuery() {
-        final Neo4jDatastoreSession datastoreSession = getXoManager().getDatastoreSession(Neo4jDatastoreSession.class);
-        return new GremlinQuery(datastoreSession);
     }
 
 }
