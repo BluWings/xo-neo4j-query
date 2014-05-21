@@ -1,21 +1,20 @@
 /*
- * #%L
  * eXtended Objects - Neo4j - Gremlin Query Support
- * %%
+ *
  * Copyright (C) 2014 SMB GmbH
- * %%
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * #L%
+ *
  */
 package com.smbtec.xo.neo4j.query.gremlin;
 
@@ -42,6 +41,10 @@ import com.tinkerpop.pipes.util.structures.Table;
 
 public class GremlinQuery implements DatastoreQuery<Gremlin> {
 
+    private static final String NODE_COLUMN_NAME = "node";
+    private static final String EDGE_COLUMN_NAME = "relationship";
+    private static final String GRAPH_COLUMN_NAME = "graph";
+
     private static final String g = "g";
     private static final String GREMLIN_GROOVY = "gremlin-groovy";
 
@@ -63,13 +66,13 @@ public class GremlinQuery implements DatastoreQuery<Gremlin> {
             final Object result = engine.eval(script, bindings);
 
             if (result instanceof Table) {
-                System.out.println("Table");
+                throw new UnsupportedOperationException("Result of type 'Table' not yet supported");
             } else if (result instanceof Iterable) {
                 return convertIterator(((Iterable<?>) result).iterator());
             } else if (result instanceof Iterator) {
                 return convertIterator(((Iterator<?>) result));
             } else if (result instanceof Map) {
-                System.out.println("Map");
+                throw new UnsupportedOperationException("Result of type 'Map' not yet supported");
             }
             return convertSingleObject(result);
 
@@ -92,11 +95,11 @@ public class GremlinQuery implements DatastoreQuery<Gremlin> {
             public Map<String, Object> next() {
                 Map<String, Object> result = new HashMap<>();
                 if (data instanceof Neo4j2Vertex) {
-                    result.put("node", ((Neo4j2Vertex) data).getRawVertex());
+                    result.put(NODE_COLUMN_NAME, ((Neo4j2Vertex) data).getRawVertex());
                 } else if (data instanceof Neo4j2Edge) {
-                    result.put("relationship", ((Neo4j2Edge) data).getRawEdge());
+                    result.put(EDGE_COLUMN_NAME, ((Neo4j2Edge) data).getRawEdge());
                 } else if (data instanceof Neo4j2Graph) {
-                    result.put("graph", ((Neo4j2Graph) result).getRawGraph().toString());
+                    result.put(GRAPH_COLUMN_NAME, ((Neo4j2Graph) result).getRawGraph().toString());
                 }
                 hasNext = false;
                 return result;
@@ -126,11 +129,11 @@ public class GremlinQuery implements DatastoreQuery<Gremlin> {
                 Object data = iterator.next();
                 Map<String, Object> result = new HashMap<>();
                 if (data instanceof Neo4j2Vertex) {
-                    result.put("node", ((Neo4j2Vertex) data).getRawVertex());
+                    result.put(NODE_COLUMN_NAME, ((Neo4j2Vertex) data).getRawVertex());
                 } else if (data instanceof Neo4j2Edge) {
-                    result.put("relationship", ((Neo4j2Edge) data).getRawEdge());
+                    result.put(EDGE_COLUMN_NAME, ((Neo4j2Edge) data).getRawEdge());
                 } else if (data instanceof Neo4j2Graph) {
-                    result.put("graph", ((Neo4j2Graph) result).getRawGraph().toString());
+                    result.put(GRAPH_COLUMN_NAME, ((Neo4j2Graph) result).getRawGraph().toString());
                 }
                 return result;
             }

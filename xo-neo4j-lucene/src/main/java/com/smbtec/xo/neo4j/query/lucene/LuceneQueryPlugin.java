@@ -1,9 +1,8 @@
 /*
- * #%L
  * eXtended Objects - Neo4j - Lucene Query Support
- * %%
+ *
  * Copyright (C) 2014 SMB GmbH
- * %%
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,13 +14,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * #L%
+ *
  */
 package com.smbtec.xo.neo4j.query.lucene;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 
-import com.buschmais.xo.neo4j.impl.datastore.AbstractNeo4jDatastore;
+import com.buschmais.xo.neo4j.impl.datastore.Neo4jDatastore;
 import com.buschmais.xo.neo4j.impl.datastore.AbstractNeo4jDatastoreSession;
 import com.buschmais.xo.spi.datastore.Datastore;
 import com.buschmais.xo.spi.datastore.DatastoreQuery;
@@ -37,7 +36,7 @@ public class LuceneQueryPlugin implements QueryLanguagePlugin<Lucene> {
 
     @Override
     public Class<Lucene> init(final Datastore datastore) {
-        if (datastore instanceof AbstractNeo4jDatastore) {
+        if (datastore instanceof Neo4jDatastore) {
             return Lucene.class;
         } else {
             return null;

@@ -24,6 +24,12 @@
             <version>${com.buschmais.xo_version}</version>
         </dependency>
         <dependency>
+            <groupId>com.buschmais.xo</groupId>
+            <artifactId>xo.neo4j</artifactId>
+            <version>${com.buschmais.xo_version}</version>
+            <classifier>tests</classifier>
+        </dependency>
+        <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-kernel</artifactId>
             <classifier>tests</classifier>
