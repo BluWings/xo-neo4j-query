@@ -14,14 +14,27 @@
 
     <repositories>
         <repository>
-            <id>neo4j-releases</id>
-            <url>http://m2.neo4j.org/content/repositories/releases</url>
+            <id>sonatype-oss</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
         <repository>
-            <id>xo-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>neo4j-releases</id>
+            <url>http://m2.neo4j.org/content/repositories/releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
+
 
     <modules>
         <module>xo-neo4j-lucene</module>
