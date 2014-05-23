@@ -19,12 +19,11 @@
 package com.smbtec.xo.neo4j.query.gremlin;
 
 import com.buschmais.xo.neo4j.api.Neo4jDatastoreSession;
-import com.buschmais.xo.neo4j.impl.datastore.Neo4jDatastore;
+import com.buschmais.xo.neo4j.api.Neo4jDatastore;
 
 import com.buschmais.xo.spi.datastore.Datastore;
 import com.buschmais.xo.spi.datastore.DatastoreQuery;
 import com.buschmais.xo.spi.datastore.DatastoreSession;
-
 import com.buschmais.xo.spi.plugin.QueryLanguagePlugin;
 
 import com.smbtec.xo.tinkerpop.blueprints.api.annotation.Gremlin;

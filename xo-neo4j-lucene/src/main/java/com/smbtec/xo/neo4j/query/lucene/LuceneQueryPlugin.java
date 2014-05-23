@@ -20,8 +20,9 @@ package com.smbtec.xo.neo4j.query.lucene;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 
-import com.buschmais.xo.neo4j.impl.datastore.Neo4jDatastore;
+import com.buschmais.xo.neo4j.api.Neo4jDatastore;
 import com.buschmais.xo.neo4j.impl.datastore.AbstractNeo4jDatastoreSession;
+
 import com.buschmais.xo.spi.datastore.Datastore;
 import com.buschmais.xo.spi.datastore.DatastoreQuery;
 import com.buschmais.xo.spi.datastore.DatastoreSession;
