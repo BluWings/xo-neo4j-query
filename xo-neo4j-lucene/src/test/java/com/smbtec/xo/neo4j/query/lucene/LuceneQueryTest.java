@@ -18,30 +18,23 @@
  */
 package com.smbtec.xo.neo4j.query.lucene;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.nullValue;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.AutoIndexer;
-import org.neo4j.kernel.GraphDatabaseAPI;
-import org.neo4j.server.WrappingNeoServer;
-import org.neo4j.test.TestGraphDatabaseFactory;
 
 import com.buschmais.xo.api.ConcurrencyMode;
 import com.buschmais.xo.api.Transaction;
@@ -49,9 +42,7 @@ import com.buschmais.xo.api.ValidationMode;
 import com.buschmais.xo.api.XOManager;
 import com.buschmais.xo.api.bootstrap.XOUnit;
 import com.buschmais.xo.neo4j.api.Neo4jDatastoreSession;
-import com.buschmais.xo.neo4j.api.Neo4jXOProvider;
 import com.buschmais.xo.neo4j.test.AbstractNeo4jXOManagerTest;
-import com.buschmais.xo.test.AbstractXOManagerTest;
 import com.smbtec.xo.neo4j.query.lucene.composite.A;
 
 /**
@@ -105,15 +96,6 @@ public class LuceneQueryTest extends AbstractNeo4jXOManagerTest {
         assertThat(match.getName(), equalTo("foo"));
 
         xoManager.currentTransaction().commit();
-    }
-
-    @Override
-    protected void dropDatabase() {
-        final XOManager manager = getXoManager();
-        manager.currentTransaction().begin();
-        manager.createQuery("MATCH (n)-[r]-() DELETE r").execute();
-        manager.createQuery("MATCH (n) DELETE n").execute();
-        manager.currentTransaction().commit();
     }
 
 }

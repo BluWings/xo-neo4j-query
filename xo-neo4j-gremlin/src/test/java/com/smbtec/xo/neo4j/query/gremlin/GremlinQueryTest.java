@@ -95,13 +95,4 @@ public class GremlinQueryTest extends AbstractNeo4jXOManagerTest {
         xoManager.currentTransaction().commit();
     }
 
-    @Override
-    protected void dropDatabase() {
-        final XOManager manager = getXoManager();
-        manager.currentTransaction().begin();
-        manager.createQuery("MATCH (n)-[r]-() DELETE r").execute();
-        manager.createQuery("MATCH (n) DELETE n").execute();
-        manager.currentTransaction().commit();
-    }
-
 }
