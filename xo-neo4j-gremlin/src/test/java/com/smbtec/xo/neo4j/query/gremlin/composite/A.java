@@ -28,4 +28,3 @@ public interface A {
     void setName(String name);
 
 }
-

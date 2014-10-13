@@ -59,7 +59,7 @@ public class LuceneQueryTest extends AbstractNeo4jXOManagerTest {
     }
 
     protected static Collection<Object[]> xoUnits(final Class<?>... types) {
-        return xoUnits(Arrays.asList(Neo4jDatabase.MEMORY, Neo4jDatabase.REST), Arrays.asList(types), Collections.<Class<?>> emptyList(), ValidationMode.AUTO,
+        return xoUnits(Arrays.asList(Neo4jDatabase.MEMORY), Arrays.asList(types), Collections.<Class<?>> emptyList(), ValidationMode.AUTO,
                 ConcurrencyMode.SINGLETHREADED, Transaction.TransactionAttribute.NONE);
     }
 

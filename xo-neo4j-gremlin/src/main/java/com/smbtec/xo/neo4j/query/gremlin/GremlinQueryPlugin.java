@@ -28,6 +28,11 @@ import com.buschmais.xo.spi.plugin.QueryLanguagePlugin;
 
 import com.smbtec.xo.tinkerpop.blueprints.api.annotation.Gremlin;
 
+/**
+ *
+ * @author Lars Martin - lars.martin@smb-tec.com
+ *
+ */
 public class GremlinQueryPlugin implements QueryLanguagePlugin<Gremlin> {
 
     @Override

@@ -8,8 +8,10 @@
     <packaging>pom</packaging>
 
     <properties>
-        <com.buschmais.xo_version>0.4.0-SNAPSHOT</com.buschmais.xo_version>
+        <com.buschmais.xo_version>0.5.0-SNAPSHOT</com.buschmais.xo_version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <org.neo4j_version>2.1.5</org.neo4j_version>
+        <org.neo4j.neo4j-rest-graphdb_version>2.0.1</org.neo4j.neo4j-rest-graphdb_version>
     </properties>
 
     <repositories>
@@ -44,6 +46,16 @@
     <dependencies>
         <dependency>
             <groupId>com.buschmais.xo</groupId>
+            <artifactId>xo.api</artifactId>
+            <version>${com.buschmais.xo_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.buschmais.xo</groupId>
+            <artifactId>xo.spi</artifactId>
+            <version>${com.buschmais.xo_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.buschmais.xo</groupId>
             <artifactId>xo.neo4j</artifactId>
             <version>${com.buschmais.xo_version}</version>
         </dependency>
@@ -52,18 +64,38 @@
             <artifactId>xo.neo4j</artifactId>
             <version>${com.buschmais.xo_version}</version>
             <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>server-api</artifactId>
+            <version>${org.neo4j_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-kernel</artifactId>
+            <version>${org.neo4j_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-lucene-index</artifactId>
+            <version>${org.neo4j_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j</artifactId>
+            <version>${org.neo4j_version}</version>
         </dependency>
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-kernel</artifactId>
             <classifier>tests</classifier>
-            <version>2.0.3</version>
-            <scope>test</scope>
+            <version>${org.neo4j_version}</version>
         </dependency>
         <dependency>
             <groupId>org.neo4j.app</groupId>
             <artifactId>neo4j-server</artifactId>
-            <version>2.0.3</version>
+            <version>${org.neo4j_version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>asm</groupId>
@@ -81,9 +113,20 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo4j-rest-graphdb</artifactId>
-            <version>2.0.1</version>
+            <groupId>org.neo4j.app</groupId>
+            <artifactId>neo4j-server</artifactId>
+            <classifier>static-web</classifier>
+            <version>${org.neo4j_version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-access</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -92,6 +135,12 @@
             <version>${com.buschmais.xo_version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+                <groupId>org.neo4j</groupId>
+                <artifactId>neo4j-rest-graphdb</artifactId>
+                <version>${org.neo4j.neo4j-rest-graphdb_version}</version>
+                <scope>test</scope>
+            </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

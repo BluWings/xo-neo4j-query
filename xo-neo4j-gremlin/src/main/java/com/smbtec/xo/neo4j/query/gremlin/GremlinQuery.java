@@ -39,6 +39,11 @@ import com.tinkerpop.blueprints.impls.neo4j2.Neo4j2Graph;
 import com.tinkerpop.blueprints.impls.neo4j2.Neo4j2Vertex;
 import com.tinkerpop.pipes.util.structures.Table;
 
+/**
+ *
+ * @author Lars Martin - lars.martin@smb-tec.com
+ *
+ */
 public class GremlinQuery implements DatastoreQuery<Gremlin> {
 
     private static final String NODE_COLUMN_NAME = "node";
@@ -75,10 +80,14 @@ public class GremlinQuery implements DatastoreQuery<Gremlin> {
                 throw new UnsupportedOperationException("Result of type 'Map' not yet supported");
             }
             return convertSingleObject(result);
-
         } catch (Exception e) {
             throw new XOException(e.getMessage(), e);
         }
+    }
+
+    @Override
+    public ResultIterator<Map<String, Object>> execute(final Gremlin query, final Map<String, Object> parameters) {
+        return execute(query.value(), parameters);
     }
 
     private ResultIterator<Map<String, Object>> convertSingleObject(final Object data) {
@@ -147,11 +156,6 @@ public class GremlinQuery implements DatastoreQuery<Gremlin> {
             public void close() {
             }
         };
-    }
-
-    @Override
-    public ResultIterator<Map<String, Object>> execute(final Gremlin query, final Map<String, Object> parameters) {
-        return execute(query.value(), parameters);
     }
 
     private Bindings createBindings(Map params, Neo4j2Graph neo4jGraph) {
