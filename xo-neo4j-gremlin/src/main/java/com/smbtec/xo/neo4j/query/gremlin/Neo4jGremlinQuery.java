@@ -19,34 +19,35 @@
 package com.smbtec.xo.neo4j.query.gremlin;
 
 import com.buschmais.xo.neo4j.api.Neo4jDatastoreSession;
-import com.buschmais.xo.neo4j.api.Neo4jDatastore;
-
-import com.buschmais.xo.spi.datastore.Datastore;
 import com.buschmais.xo.spi.datastore.DatastoreQuery;
-import com.buschmais.xo.spi.datastore.DatastoreSession;
-import com.buschmais.xo.spi.plugin.QueryLanguagePlugin;
-
 import com.smbtec.xo.tinkerpop.blueprints.api.annotation.Gremlin;
+import com.smbtec.xo.tinkerpop.blueprints.impl.GremlinQuery;
+import com.tinkerpop.blueprints.impls.neo4j2.Neo4j2Edge;
+import com.tinkerpop.blueprints.impls.neo4j2.Neo4j2Graph;
+import com.tinkerpop.blueprints.impls.neo4j2.Neo4j2Vertex;
 
 /**
  *
  * @author Lars Martin - lars.martin@smb-tec.com
  *
  */
-public class GremlinQueryPlugin implements QueryLanguagePlugin<Gremlin> {
+public class Neo4jGremlinQuery extends GremlinQuery implements DatastoreQuery<Gremlin> {
 
-    @Override
-    public Class<Gremlin> init(final Datastore datastore) {
-        if (datastore instanceof Neo4jDatastore) {
-            return Gremlin.class;
-        } else {
-            return null;
-        }
+    public Neo4jGremlinQuery(Neo4jDatastoreSession session) {
+        super(new Neo4j2Graph(session.getGraphDatabaseService()));
     }
 
     @Override
-    public DatastoreQuery<Gremlin> createQuery(final DatastoreSession session) {
-        return new Neo4jGremlinQuery((Neo4jDatastoreSession) session);
+    public Object entityRepresentation(Object entity) {
+        if (entity instanceof Neo4j2Vertex) {
+            return ((Neo4j2Vertex) entity).getRawVertex();
+        } else if (entity instanceof Neo4j2Edge) {
+            return ((Neo4j2Edge) entity).getRawEdge();
+        } else if (entity instanceof Neo4j2Graph) {
+            return ((Neo4j2Graph) entity).getRawGraph().toString();
+        } else {
+            return super.entityRepresentation(entity);
+        }
     }
 
 }

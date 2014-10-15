@@ -17,6 +17,12 @@
             <version>0.0.3-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>com.smb-tec.xo</groupId>
+            <artifactId>xo-tinkerpop-blueprints</artifactId>
+            <version>0.0.3-SNAPSHOT</version>
+            <classifier>tests</classifier>
+        </dependency>
+        <dependency>
             <groupId>com.tinkerpop.blueprints</groupId>
             <artifactId>blueprints-neo4j2-graph</artifactId>
             <version>2.6.0</version>
