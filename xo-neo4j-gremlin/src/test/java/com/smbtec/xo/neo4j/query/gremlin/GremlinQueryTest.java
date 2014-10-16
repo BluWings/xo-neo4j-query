@@ -18,7 +18,13 @@
  */
 package com.smbtec.xo.neo4j.query.gremlin;
 
+
+import static com.buschmais.xo.neo4j.test.AbstractNeo4jXOManagerTest.Neo4jDatabase.MEMORY;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,18 +41,12 @@ import com.buschmais.xo.api.Query.Result;
 import com.buschmais.xo.api.XOException;
 import com.buschmais.xo.api.XOManager;
 import com.buschmais.xo.api.bootstrap.XOUnit;
+import com.buschmais.xo.neo4j.test.AbstractNeo4jXOManagerTest;
 import com.smbtec.xo.neo4j.query.gremlin.composite.Person;
-import com.smbtec.xo.tinkerpop.blueprints.api.TinkerPopDatastoreSession;
 import com.smbtec.xo.tinkerpop.blueprints.api.annotation.Gremlin;
-import com.smbtec.xo.tinkerpop.blueprints.test.AbstractTinkerPopXOManagerTest;
-import com.tinkerpop.blueprints.Graph;
-import com.tinkerpop.blueprints.KeyIndexableGraph;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(Parameterized.class)
-public class GremlinQueryTest extends AbstractTinkerPopXOManagerTest {
+public class GremlinQueryTest extends AbstractNeo4jXOManagerTest {
 
     private Person john;
     private Person mary;
@@ -57,16 +57,13 @@ public class GremlinQueryTest extends AbstractTinkerPopXOManagerTest {
 
     @Parameterized.Parameters
     public static Collection<Object[]> getXOUnits() throws URISyntaxException {
-        return xoUnits(Person.class);
+        return xoUnits(Arrays.asList(MEMORY), Arrays.asList(Person.class));
     }
 
     @Before
     public void populate() {
         XOManager xoManager = getXoManager();
         xoManager.currentTransaction().begin();
-        Graph graph = xoManager.getDatastoreSession(TinkerPopDatastoreSession.class).getGraph();
-        ((KeyIndexableGraph) graph).createKeyIndex("firstname", com.tinkerpop.blueprints.Vertex.class);
-        ((KeyIndexableGraph) graph).createKeyIndex("lastname", com.tinkerpop.blueprints.Vertex.class);
         john = xoManager.create(new Example<Person>() {
 
             @Override
@@ -114,7 +111,7 @@ public class GremlinQueryTest extends AbstractTinkerPopXOManagerTest {
         String firstName = getXoManager().createQuery("g.v(0).firstname", String.class).using(Gremlin.class).execute()
                 .getSingleResult();
         assertThat(firstName, equalTo("John"));
-        firstName = getXoManager().createQuery("g.v(0).outE('friends').inV().firstname", String.class).execute()
+        firstName = getXoManager().createQuery("g.v(0).outE('FRIENDS').inV().firstname", String.class).using(Gremlin.class).execute()
                 .getSingleResult();
         assertThat(firstName, equalTo("Mary"));
         getXoManager().currentTransaction().commit();
@@ -169,7 +166,7 @@ public class GremlinQueryTest extends AbstractTinkerPopXOManagerTest {
     @Test
     public void ages() {
         getXoManager().currentTransaction().begin();
-        Result<Long> result = getXoManager().createQuery("g.V('lastname','Doe').outE('friends').inV().age", Long.class)
+        Result<Long> result = getXoManager().createQuery("g.V('lastname','Doe').outE('FRIENDS').inV().age", Long.class)
                 .using(Gremlin.class).execute();
         assertThat(result, IsIterableWithSize.<Long> iterableWithSize(1));
         getXoManager().currentTransaction().commit();

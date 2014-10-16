@@ -2,13 +2,12 @@ package com.smbtec.xo.neo4j.query.gremlin.composite;
 
 import java.util.Collection;
 
-import com.smbtec.xo.tinkerpop.blueprints.api.annotation.Indexed;
+import com.buschmais.xo.neo4j.api.annotation.Label;
 import com.smbtec.xo.tinkerpop.blueprints.api.annotation.Vertex;
 
-@Vertex
+@Label
 public interface Person {
 
-    @Indexed
     String getFirstname();
 
     void setFirstname(String firstName);
