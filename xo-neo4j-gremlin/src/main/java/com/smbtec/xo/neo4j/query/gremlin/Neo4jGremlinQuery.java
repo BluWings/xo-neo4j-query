@@ -18,6 +18,9 @@
  */
 package com.smbtec.xo.neo4j.query.gremlin;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.buschmais.xo.neo4j.api.Neo4jDatastoreSession;
 import com.buschmais.xo.spi.datastore.DatastoreQuery;
 import com.smbtec.xo.tinkerpop.blueprints.api.annotation.Gremlin;
@@ -38,13 +41,17 @@ public class Neo4jGremlinQuery extends GremlinQuery implements DatastoreQuery<Gr
     }
 
     @Override
-    public Object entityRepresentation(Object entity) {
+    public Map<String, Object> entityRepresentation(Object entity) {
+        Map<String, Object> result = new HashMap<>();
         if (entity instanceof Neo4j2Vertex) {
-            return ((Neo4j2Vertex) entity).getRawVertex();
+            result.put(NODE_COLUMN_NAME, ((Neo4j2Vertex) entity).getRawVertex());
+            return result;
         } else if (entity instanceof Neo4j2Edge) {
-            return ((Neo4j2Edge) entity).getRawEdge();
+            result.put(EDGE_COLUMN_NAME, ((Neo4j2Edge) entity).getRawEdge());
+            return result;
         } else if (entity instanceof Neo4j2Graph) {
-            return ((Neo4j2Graph) entity).getRawGraph().toString();
+            result.put(GRAPH_COLUMN_NAME, ((Neo4j2Graph) entity).getRawGraph().toString());
+            return result;
         } else {
             return super.entityRepresentation(entity);
         }
