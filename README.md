@@ -25,4 +25,4 @@ Start the Maven build on command line
 Continuous Build
 ----------------
 
-[![Build Status](https://secure.travis-ci.org/BluWings/xo-neo4j-query.png)](http://travis-ci.org/BluWings/xo-neo4j-query)
+[![Build Status](https://secure.travis-ci.org/SMB-TEC/xo-neo4j-query.png)](http://travis-ci.org/SMB-TEC/xo-neo4j-query)
